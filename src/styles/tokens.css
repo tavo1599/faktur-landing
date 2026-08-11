@@ -1,0 +1,67 @@
+/* ============================================================
+   Faktur — Design tokens
+   Fuente única de verdad para color, tipografía, espacio y sombra.
+   ============================================================ */
+:root {
+  /* — Marca — */
+  --green: #0ca256;
+  --green-2: #16c06a;
+  --green-bright: #2fe08a;
+  --green-deep: #0a7f43;
+  --green-soft: #e7f6ee;
+  --green-glow: rgba(12, 162, 86, 0.38);
+
+  /* — Fondos oscuros (navy de marca) — */
+  --navy-900: #0a1520;
+  --navy-800: #0f1e2b;
+  --navy-700: #16293a;
+  --navy-600: #22384c;
+
+  /* — Claros — */
+  --paper: #ffffff;
+  --paper-2: #f6f9f8;
+  --cream: #f5f1ec;
+
+  /* — Texto — */
+  --text-ink: #111b21;
+  --text-muted: #576771;
+  --text-soft: #7c8b93;
+  --text-on-dark: #eaf2ef;
+  --text-on-dark-muted: #94a7ad;
+
+  /* — Bordes — */
+  --border: #e7ecea;
+  --border-strong: #d6ddda;
+  --border-dark: rgba(255, 255, 255, 0.1);
+
+  /* — Tipografía — */
+  --font-display: "Sora", system-ui, -apple-system, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  --fs-eyebrow: 0.8125rem;
+  --fs-body: 1.0625rem;
+  --fs-lead: 1.1875rem;
+
+  /* — Radios — */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 34px;
+  --r-full: 999px;
+
+  /* — Sombras — */
+  --shadow-sm: 0 2px 8px rgba(17, 27, 33, 0.06);
+  --shadow-md: 0 14px 34px rgba(17, 27, 33, 0.1);
+  --shadow-lg: 0 34px 80px rgba(17, 27, 33, 0.18);
+  --shadow-green: 0 18px 44px -14px var(--green-glow);
+
+  /* — Layout — */
+  --container: 1200px;
+  --container-narrow: 860px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --nav-h: 76px;
+
+  /* — Movimiento — */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
