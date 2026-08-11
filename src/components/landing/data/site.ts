@@ -10,8 +10,8 @@ export const site = {
   // Los botones "Prueba gratis / Empieza gratis" llevan al formulario de registro.
   ctaRegistro: '#contacto',
 
-  // Endpoint del backend que inicia el registro de prueba (envía el enlace mágico).
-  registroEndpoint: 'https://app.faktur.pe/registro/solicitar',
+  // Endpoint del backend (api.faktur.pe) que inicia el registro de prueba.
+  registroEndpoint: 'https://api.faktur.pe/registro/solicitar',
 
   contacto: {
     email: 'hola@faktur.pe',
