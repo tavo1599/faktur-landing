@@ -15,10 +15,10 @@ export const site = {
 
   contacto: {
     email: 'hola@faktur.pe',
-    telefono: '+51 999 999 999',
-    whatsapp: 'https://wa.me/51999999999',
+    telefono: '+51 906 771 606',
+    whatsapp: 'https://wa.me/51906771606',
     // Número solo dígitos (país+celular) para pre-rellenar el chat de WhatsApp
-    whatsappNumero: '51999999999',
+    whatsappNumero: '51906771606',
     // Endpoint del Libro de Reclamaciones. Si queda vacío, abre el correo con los datos.
     libroEndpoint: '',
   },
@@ -31,7 +31,7 @@ export const site = {
 
   legal: {
     razonSocial: 'Faktur',
-    ruc: '20XXXXXXXXX',
+    ruc: '20616581890',
   },
 
   // Enlaces de navegación (anclas dentro de la página)

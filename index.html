@@ -6,11 +6,20 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Faktur — Facturación electrónica SUNAT para tu negocio</title>
+    <title>Faktur — Sistema de facturación electrónica SUNAT en Perú | Facturas, boletas y guías</title>
     <meta
       name="description"
-      content="Emite facturas, boletas y guías de remisión electrónicas válidas ante SUNAT en segundos. Punto de venta, reportes para tu contador y todo en la nube. Empieza gratis."
+      content="Faktur es un sistema de facturación electrónica para SUNAT en Perú. Emite facturas, boletas y guías de remisión electrónicas válidas en segundos, con punto de venta, reportes y todo en la nube. Empieza gratis."
     />
+    <meta
+      name="keywords"
+      content="facturación electrónica, factura electrónica SUNAT, sistema de facturación, facturador SUNAT, boletas electrónicas, guía de remisión electrónica, software de facturación Perú, punto de venta, comprobantes electrónicos, facturación en la nube, facturación electrónica Perú"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Faktur" />
+    <meta name="geo.region" content="PE" />
+    <meta name="geo.placename" content="Perú" />
+    <link rel="canonical" href="https://faktur.pe/" />
     <meta name="theme-color" content="#0f1e2b" />
 
     <!-- Open Graph / redes sociales.
@@ -56,6 +65,51 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Datos estructurados (Schema.org) para que Google entienda qué es Faktur,
+         quién lo ofrece (RUC + teléfono) y que es un software de facturación. -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://faktur.pe/#organizacion",
+          "name": "Faktur",
+          "url": "https://faktur.pe/",
+          "logo": "https://faktur.pe/logo.png",
+          "description": "Sistema de facturación electrónica para SUNAT en Perú.",
+          "taxID": "20616581890",
+          "telephone": "+51906771606",
+          "areaServed": "PE",
+          "address": { "@type": "PostalAddress", "addressCountry": "PE" },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+51906771606",
+            "contactType": "ventas",
+            "areaServed": "PE",
+            "availableLanguage": "es"
+          }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Faktur",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "description": "Emite facturas, boletas y guías de remisión electrónicas válidas ante SUNAT. Incluye punto de venta, reportes y todo en la nube.",
+          "url": "https://faktur.pe/",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PEN" },
+          "provider": { "@id": "https://faktur.pe/#organizacion" }
+        },
+        {
+          "@type": "WebSite",
+          "url": "https://faktur.pe/",
+          "name": "Faktur",
+          "inLanguage": "es-PE"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>
