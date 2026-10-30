@@ -22,10 +22,14 @@ export const faqs: Faq[] = [
   },
   {
     q: '¿Qué pasa si supero el límite de mi plan?',
-    a: 'Te avisamos con anticipación y puedes subir de plan en cualquier momento sin perder tu información.',
+    a: 'El Plan Faktur incluye 1000 comprobantes al mes, el Básico 5000 y el ERP es ilimitado. Si llegas al límite, subes de plan en cualquier momento sin perder tu información.',
+  },
+  {
+    q: '¿Cuántas sucursales puedo tener?',
+    a: 'Las que necesites: las sucursales no tienen costo adicional en ningún plan. Cada una con sus series y su stock.',
   },
   {
     q: '¿Ofrecen soporte?',
-    a: 'Sí. Todos los planes incluyen soporte, y los planes de pago tienen atención prioritaria para resolver tus dudas rápido.',
+    a: 'Sí. Todos los planes incluyen soporte y actualizaciones para resolver tus dudas rápido.',
   },
 ]

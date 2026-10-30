@@ -3,7 +3,7 @@ import CountUp from './ui/CountUp.vue'
 
 // Cifras honestas (basadas en el producto/planes), no inventadas.
 const stats = [
-  { to: 1000, suffix: '', label: 'comprobantes gratis al mes' },
+  { to: 7, suffix: ' días', label: 'de prueba gratis' },
   { to: 3, suffix: '', label: 'pasos para empezar' },
   { to: 100, suffix: '%', label: 'válido ante SUNAT' },
   { to: 5, suffix: ' min', label: 'para dejar todo listo' },

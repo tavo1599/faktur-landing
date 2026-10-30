@@ -10,7 +10,7 @@ import PricingCard from './ui/PricingCard.vue'
     <div class="container">
       <SectionHeading
         eyebrow="Precios"
-        subtitle="Empieza gratis y sube de plan cuando tu negocio lo pida. Sin permanencia."
+        subtitle="Prueba gratis 7 días con todo incluido y luego elige tu plan. Sin permanencia."
         data-reveal
       >
         Un plan para <span class="text-gradient">cada etapa</span>
@@ -28,7 +28,8 @@ import PricingCard from './ui/PricingCard.vue'
 
       <p class="pricing__note" data-reveal>
         <RefreshCw :size="15" />
-        Cambia o cancela cuando quieras. Todos los planes incluyen actualizaciones y soporte.
+        Precios mensuales en soles, no incluyen IGV. Sucursales sin costo adicional en todos los planes.
+        Cambia o cancela cuando quieras.
       </p>
     </div>
   </section>
