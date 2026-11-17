@@ -25,6 +25,7 @@ const columnas = [
     titulo: 'Legal',
     links: [
       { label: 'Términos y condiciones', href: '/terminos' },
+      { label: 'Política de privacidad', href: '/privacidad' },
       { label: 'Libro de Reclamaciones', href: '/libro-de-reclamaciones' },
     ],
   },

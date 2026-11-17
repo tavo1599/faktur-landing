@@ -14,6 +14,7 @@ const form = reactive({
   telefono: '',
   motivo: 'demo',
   mensaje: '',
+  web_site: '', // honeypot anti-spam (debe quedar vacío)
 })
 
 const motivos = [
@@ -42,12 +43,39 @@ function textoResumen(): string {
   )
 }
 
+// Captura de lead en el CRM (además del registro). Best-effort: nunca rompe el
+// flujo ni cambia el mensaje de éxito. El honeypot y el site-key van en el body.
+async function enviarLead() {
+  if (!site.leadsEndpoint) return
+  const motivo = motivos.find((m) => m.valor === form.motivo)?.texto || form.motivo
+  try {
+    await fetch(site.leadsEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: form.nombre,
+        empresa_nombre: form.empresa || undefined,
+        email: form.email || undefined,
+        telefono: form.telefono || undefined,
+        mensaje: `Motivo: ${motivo}.${form.mensaje ? ' ' + form.mensaje : ''}`,
+        web_site: form.web_site, // honeypot
+        token: site.leadsToken || undefined,
+      }),
+    })
+  } catch {
+    /* best-effort */
+  }
+}
+
 async function enviar() {
   if (!valido()) {
     estado.value = 'error'
     return
   }
   estado.value = 'enviando'
+
+  // Deja el lead en el CRM en paralelo (no bloquea la respuesta al usuario).
+  void enviarLead()
 
   // 1) Si hay endpoint configurado, inicia el registro (envía el enlace mágico).
   if (site.registroEndpoint) {
@@ -111,6 +139,15 @@ async function enviar() {
 
         <!-- Formulario -->
         <form v-else class="contact__form" @submit.prevent="enviar">
+          <!-- Honeypot anti-spam: invisible para personas; los bots lo rellenan. -->
+          <input
+            v-model="form.web_site"
+            class="hp"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+            aria-hidden="true"
+          />
           <div class="field-grid">
             <label class="field">
               <span>Nombre *</span>
@@ -221,6 +258,15 @@ async function enviar() {
   display: flex;
   flex-direction: column;
   gap: 7px;
+}
+/* Honeypot: fuera de pantalla, sin ocupar lugar ni recibir foco. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 .field > span {
   font-size: 0.85rem;

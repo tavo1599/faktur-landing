@@ -13,12 +13,21 @@ export const site = {
   // Endpoint del backend (api.faktur.pe) que inicia el registro de prueba.
   registroEndpoint: 'https://api.faktur.pe/registro/solicitar',
 
+  // Captura de leads: cada envío del formulario de contacto queda también como
+  // contacto en el CRM de Faktur (además del registro de prueba). Best-effort.
+  leadsEndpoint: 'https://api.faktur.pe/public/leads',
+  // Site-key público anti-spam: debe coincidir con FAKTUR_LEADS_KEY del backend.
+  // Vacío = el backend no lo exige (dev). Llénalo en ambos lados para activarlo.
+  leadsToken: '',
+
   contacto: {
     email: 'hola@faktur.pe',
-    telefono: '+51 906 771 606',
-    whatsapp: 'https://wa.me/51906771606',
+    // Correo para solicitudes de datos personales (derechos ARCO / privacidad).
+    emailDatos: 'erpcontable51@gmail.com',
+    telefono: '+51 908 909 128',
+    whatsapp: 'https://wa.me/51908909128',
     // Número solo dígitos (país+celular) para pre-rellenar el chat de WhatsApp
-    whatsappNumero: '51906771606',
+    whatsappNumero: '51908909128',
     // Endpoint del Libro de Reclamaciones. Si queda vacío, abre el correo con los datos.
     libroEndpoint: '',
   },
