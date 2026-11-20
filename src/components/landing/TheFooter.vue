@@ -18,6 +18,7 @@ const columnas = [
     titulo: 'Empresa',
     links: [
       { label: 'Contacto', href: '#contacto' },
+      { label: 'Consultar comprobante', href: site.consultaUrl },
       { label: 'Iniciar sesión', href: site.loginUrl },
     ],
   },

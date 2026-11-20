@@ -6,6 +6,8 @@ export const site = {
   // La app vive en un subdominio aparte
   appUrl: 'https://app.faktur.pe',
   loginUrl: 'https://app.faktur.pe/login',
+  // Consulta pública de comprobantes (descargar boleta/factura por RUC + número).
+  consultaUrl: 'https://app.faktur.pe/consulta',
 
   // Los botones "Prueba gratis / Empieza gratis" llevan al formulario de registro.
   ctaRegistro: '#contacto',

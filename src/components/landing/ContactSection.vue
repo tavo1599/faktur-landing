@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { Mail, Phone, MessageCircle, CheckCircle2, Send } from 'lucide-vue-next'
 import { site } from './data/site'
 import SectionHeading from './ui/SectionHeading.vue'
@@ -12,17 +12,26 @@ const form = reactive({
   empresa: '',
   email: '',
   telefono: '',
-  motivo: 'demo',
+  motivo: 'prueba',
   mensaje: '',
   web_site: '', // honeypot anti-spam (debe quedar vacío)
 })
 
+// Cada motivo marca si debe INICIAR la prueba (crear cuenta + enviar enlace al
+// correo). Solo "Quiero la prueba gratis" crea cuenta; el resto solo envía el
+// mensaje y queda como contacto en el CRM para que el equipo responda.
 const motivos = [
-  { valor: 'demo', texto: 'Quiero una demo' },
-  { valor: 'consulta', texto: 'Tengo una consulta' },
-  { valor: 'precios', texto: 'Información de precios' },
-  { valor: 'soporte', texto: 'Soporte' },
+  { valor: 'prueba', texto: 'Quiero la prueba gratis', prueba: true },
+  { valor: 'demo', texto: 'Quiero una demo', prueba: false },
+  { valor: 'consulta', texto: 'Tengo una consulta', prueba: false },
+  { valor: 'precios', texto: 'Información de precios', prueba: false },
+  { valor: 'soporte', texto: 'Soporte', prueba: false },
 ]
+
+// ¿El motivo elegido inicia la prueba gratis (crea cuenta) o solo envía mensaje?
+const esPrueba = computed(() => !!motivos.find((m) => m.valor === form.motivo)?.prueba)
+// Qué se envió por último, para mostrar el mensaje de éxito correcto.
+const enviadoComo = ref<'prueba' | 'mensaje'>('prueba')
 
 function valido(): boolean {
   return (
@@ -45,11 +54,11 @@ function textoResumen(): string {
 
 // Captura de lead en el CRM (además del registro). Best-effort: nunca rompe el
 // flujo ni cambia el mensaje de éxito. El honeypot y el site-key van en el body.
-async function enviarLead() {
-  if (!site.leadsEndpoint) return
+async function enviarLead(): Promise<boolean> {
+  if (!site.leadsEndpoint) return false
   const motivo = motivos.find((m) => m.valor === form.motivo)?.texto || form.motivo
   try {
-    await fetch(site.leadsEndpoint, {
+    const res = await fetch(site.leadsEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -62,9 +71,15 @@ async function enviarLead() {
         token: site.leadsToken || undefined,
       }),
     })
+    return res.ok
   } catch {
-    /* best-effort */
+    return false
   }
+}
+
+function abrirWhatsApp() {
+  const url = `https://wa.me/${site.contacto.whatsappNumero}?text=${encodeURIComponent(textoResumen())}`
+  window.open(url, '_blank', 'noopener')
 }
 
 async function enviar() {
@@ -73,11 +88,21 @@ async function enviar() {
     return
   }
   estado.value = 'enviando'
+  enviadoComo.value = esPrueba.value ? 'prueba' : 'mensaje'
 
-  // Deja el lead en el CRM en paralelo (no bloquea la respuesta al usuario).
+  // --- Caso A: NO es la prueba (consulta, soporte, demo, precios) ---
+  // No se crea ninguna cuenta. Solo queda como contacto en el CRM para que el
+  // equipo responda; si eso falla, cae a WhatsApp para garantizar la entrega.
+  if (!esPrueba.value) {
+    const ok = await enviarLead()
+    if (!ok) abrirWhatsApp()
+    estado.value = 'ok'
+    return
+  }
+
+  // --- Caso B: quiere la prueba gratis → inicia el registro (crea cuenta) ---
+  // Deja además el lead en el CRM en paralelo (no bloquea la respuesta).
   void enviarLead()
-
-  // 1) Si hay endpoint configurado, inicia el registro (envía el enlace mágico).
   if (site.registroEndpoint) {
     try {
       const res = await fetch(site.registroEndpoint, {
@@ -92,10 +117,8 @@ async function enviar() {
     }
     return
   }
-
-  // 2) Fallback: abre WhatsApp con los datos pre-rellenados.
-  const url = `https://wa.me/${site.contacto.whatsappNumero}?text=${encodeURIComponent(textoResumen())}`
-  window.open(url, '_blank', 'noopener')
+  // Sin endpoint de registro: cae a WhatsApp.
+  abrirWhatsApp()
   estado.value = 'ok'
 }
 </script>
@@ -132,9 +155,15 @@ async function enviar() {
         <!-- Éxito -->
         <div v-if="estado === 'ok'" class="contact__ok">
           <span class="contact__ok-ic"><CheckCircle2 :size="34" /></span>
-          <h3>¡Revisa tu correo!</h3>
-          <p>Te enviamos un enlace para activar tu prueba gratis de 7 días. Si no lo ves, revisa spam.</p>
-          <button class="contact__reset" @click="estado = 'idle'">Enviar de nuevo</button>
+          <template v-if="enviadoComo === 'prueba'">
+            <h3>¡Revisa tu correo!</h3>
+            <p>Te enviamos un enlace para activar tu prueba gratis de 7 días. Si no lo ves, revisa spam.</p>
+          </template>
+          <template v-else>
+            <h3>¡Mensaje enviado!</h3>
+            <p>Recibimos tu mensaje y te respondemos el mismo día por correo o WhatsApp.</p>
+          </template>
+          <button class="contact__reset" @click="estado = 'idle'">Enviar otro</button>
         </div>
 
         <!-- Formulario -->
@@ -185,7 +214,7 @@ async function enviar() {
 
           <button type="submit" class="contact__submit" :disabled="estado === 'enviando'">
             <Send :size="18" />
-            {{ estado === 'enviando' ? 'Enviando…' : 'Empezar prueba gratis' }}
+            {{ estado === 'enviando' ? 'Enviando…' : (esPrueba ? 'Empezar prueba gratis' : 'Enviar') }}
           </button>
           <p class="contact__note">Sin compromiso. No compartimos tus datos.</p>
         </form>
